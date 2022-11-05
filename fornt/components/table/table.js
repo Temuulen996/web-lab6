@@ -14,7 +14,7 @@ const Tablee = ({ data }) => {
             <th>points</th>
             <th>price</th>
             <th>province</th>
-            <th>region_1</th>
+            <th>region 1</th>
             <th>taster name</th>
             <th>taster twitter handle</th>
             <th>title</th>
@@ -31,7 +31,10 @@ const Tablee = ({ data }) => {
               <td>{el.points}</td>
               <td>{el.price}</td>
               <td>{el.province}</td>
-              <td>{el.region_1}</td>
+              <td>
+                {el.region_1} || {el.region_2}
+              </td>
+
               <td>{el.taster_name}</td>
               <td>{el.taster_twitter_handle}</td>
               <td>{el.title}</td>

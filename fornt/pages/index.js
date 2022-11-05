@@ -3,7 +3,13 @@ import Image from "next/image";
 import Tablee from "../components/table/table";
 import styles from "../styles/Home.module.css";
 import { Button } from "react-bootstrap";
-import { allWine, wineByRegion } from "../lib/api";
+import {
+  allWine,
+  wineByCountry,
+  wineByName,
+  wineByRegion,
+  wineByVariety,
+} from "../lib/api";
 import { useState } from "react";
 export const getServerSideProps = async ({ req, res }) => {
   let data = await allWine();
@@ -27,17 +33,49 @@ export default function Home({ data }) {
     fromPoint: undefined,
     toPoint: undefined,
   });
-  const changeListByRegion = async () => {
-    console.log("reg ajillaa");
-    let wines = await wineByRegion(
-      filter,
-      point.fromPoint,
-      point.toPoint,
-      price.fromPrice,
-      price.toPrice
-    );
-    setDrinks(wines);
+  const changeList = async () => {
+    console.log(point);
+    console.log(filter);
+    if (type === "region") {
+      console.log("reg ajillaa");
+      let wines = await wineByRegion(
+        filter,
+        point.fromPoint,
+        point.toPoint,
+        price.fromPrice,
+        price.toPrice
+      );
+      setDrinks(wines);
+    } else if (type === "country") {
+      let wines = await wineByCountry(
+        filter,
+        point.fromPoint,
+        point.toPoint,
+        price.fromPrice,
+        price.toPrice
+      );
+      setDrinks(wines);
+    } else if (type === "name") {
+      let wines = await wineByName(
+        filter,
+        point.fromPoint,
+        point.toPoint,
+        price.fromPrice,
+        price.toPrice
+      );
+      setDrinks(wines);
+    } else if (type === "variety") {
+      let wines = await wineByVariety(
+        filter,
+        point.fromPoint,
+        point.toPoint,
+        price.fromPrice,
+        price.toPrice
+      );
+      setDrinks(wines);
+    }
   };
+
   // const changeListByVariety = async () => {
   //   console.log("var ajillaa");
   //   let wines = await wineByRegion("Napa", 90, 95, 90, 100);
@@ -56,9 +94,10 @@ export default function Home({ data }) {
 
   return (
     <div className="">
-      <div className=" bg-red-400 w-full flex justify-center items-center">
-        <div className="w-1/2 bg-red-600 flex my-3 mx-3">
+      <div className="  w-full flex justify-center items-center">
+        <div className="  flex my-3 mx-3 ">
           <select
+            defaultValue="region"
             onChange={(e) => {
               console.log(e.target.value);
               setType(e.target.value);
@@ -72,27 +111,33 @@ export default function Home({ data }) {
             <option value="variety">variety</option>
           </select>
           <div className="flex">
-            <p>point:</p>
+            <p className="flex items-center h-full">point:</p>
             <input
+              value={point.fromPoint}
+              min={0}
               onChange={(e) => {
                 console.log(e.target.value);
-                setPrice({ ...point, fromPoint: e.target.value });
+                setPoint({ ...point, fromPoint: e.target.value });
               }}
               className="w-10 mx-2"
               type={"number"}
             />
             <input
+              value={point.toPoint}
+              min={0}
               onChange={(e) => {
                 console.log(e.target.value);
-                setPrice({ ...point, toPoint: e.target.value });
+                setPoint({ ...point, toPoint: e.target.value });
               }}
               className="w-10 mx-2"
               type={"number"}
             />
           </div>
           <div className="flex">
-            <p>price:</p>
+            <p className="flex items-center h-full">price:</p>
             <input
+              value={point.fromPrice}
+              min={0}
               onChange={(e) => {
                 console.log(e.target.value);
                 setPrice({ ...price, fromPrice: e.target.value });
@@ -101,6 +146,8 @@ export default function Home({ data }) {
               type={"number"}
             />
             <input
+              value={point.toPrice}
+              min={0}
               onChange={(e) => {
                 console.log(e.target.value);
                 setPrice({ ...price, toPrice: e.target.value });
@@ -110,28 +157,22 @@ export default function Home({ data }) {
             />
           </div>
           <input
+            value={filter}
+            className="mr-2"
             onChange={(e) => {
               console.log(e.target.value);
               setFilter(e.target.value);
             }}
-            placeholder="talbar.."
+            placeholder={`${type}...`}
           />
 
           <Button
             variant="success"
             onClick={() => {
-              if (type === "region") {
-                changeListByRegion();
-              } else if (type === "country") {
-                changeListByCountry();
-              } else if (type === "name") {
-                changeListByName();
-              } else if (type === "variety") {
-                changeListByVariety();
-              }
+              changeList();
             }}
           >
-            Success
+            FILTER
           </Button>
         </div>
       </div>
