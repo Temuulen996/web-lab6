@@ -2,12 +2,17 @@ var express = require("express");
 var app = express();
 const fs = require("fs");
 let data = fs.readFileSync("./wines.json");
+// This should already be declared in your API file
 
+// ADD THIS
+var cors = require("cors");
+app.use(cors());
 data = JSON.parse(data);
 app.get("/all", function (req, res) {
   res.send(data);
 });
 app.get("/search", function (req, res) {
+  res.header("Access-Control-Allow-Origin");
   console.log(req.query);
   let newdata = [];
   let fromPrice = parseInt(req.query.fromPrice);

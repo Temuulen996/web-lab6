@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Table } from "react-bootstrap";
+
 const Tablee = ({ data }) => {
-  const [list, setList] = useState(data);
-  console.log(list);
   return (
     <div>
       {" "}
@@ -24,7 +23,7 @@ const Tablee = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {list.map((el, i) => (
+          {data.map((el, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
               <td>{el.country}</td>
