@@ -23,20 +23,30 @@ app.get("/search", function (req, res) {
   if (req.query.byRegion != undefined) {
     for (let i = 0; i < data.length; i++) {
       if (
-        (data[i].region_1 == req.query.byRegion ||
-          data[i].region_2 == req.query.byRegion) &&
+        ((data[i].region_1 != null &&
+          data[i].region_1
+            .toLowerCase()
+            .search(req.query.byRegion.toLowerCase()) > -1) ||
+          (data[i].region_2 != null &&
+            data[i].region_2
+              .toLowerCase()
+              .search(req.query.byRegion.toLowerCase()) > -1)) &&
         data[i].price > fromPrice &&
         data[i].price <= toPrice &&
         data[i].points > fromPoint &&
         data[i].points <= toPoint
       ) {
+        console.log(data[i].region_1.search(req.query.byRegion));
         newdata.push(data[i]);
       }
     }
   } else if (req.query.byVariety != undefined) {
     for (let i = 0; i < data.length; i++) {
       if (
-        data[i].variety == req.query.byVariety &&
+        data[i].variety != null &&
+        data[i].variety
+          .toLowerCase()
+          .search(req.query.byVariety.toLowerCase()) > -1 &&
         data[i].price > fromPrice &&
         data[i].price <= toPrice &&
         data[i].points > fromPoint &&
@@ -48,7 +58,10 @@ app.get("/search", function (req, res) {
   } else if (req.query.byName != undefined) {
     for (let i = 0; i < data.length; i++) {
       if (
-        data[i].taster_name == req.query.byName &&
+        data[i].taster_name != null &&
+        data[i].taster_name
+          .toLowerCase()
+          .search(req.query.byName.toLowerCase()) > -1 &&
         data[i].price > fromPrice &&
         data[i].price <= toPrice &&
         data[i].points > fromPoint &&
@@ -60,7 +73,10 @@ app.get("/search", function (req, res) {
   } else if (req.query.byCountry != undefined) {
     for (let i = 0; i < data.length; i++) {
       if (
-        data[i].country == req.query.byCountry &&
+        data[i].country != null &&
+        data[i].country
+          .toLowerCase()
+          .search(req.query.byCountry.toLowerCase()) > -1 &&
         data[i].price > fromPrice &&
         data[i].price <= toPrice &&
         data[i].points > fromPoint &&

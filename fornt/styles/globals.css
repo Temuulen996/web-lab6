@@ -17,6 +17,8 @@ a {
 input {
   outline-color: lightblue;
   border: 1px solid black;
+  border-radius: 5px;
+  border-color: gray;
 }
 * {
   box-sizing: border-box;

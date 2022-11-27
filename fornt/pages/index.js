@@ -33,6 +33,10 @@ export default function Home({ data }) {
     fromPoint: undefined,
     toPoint: undefined,
   });
+  const getAll = async () => {
+    const winess = await allWine();
+    setDrinks(winess);
+  };
   const changeList = async () => {
     console.log(point);
     console.log(filter);
@@ -96,20 +100,6 @@ export default function Home({ data }) {
     <div className="">
       <div className="  w-full flex justify-center items-center">
         <div className="  flex my-3 mx-3 ">
-          <select
-            defaultValue="region"
-            onChange={(e) => {
-              console.log(e.target.value);
-              setType(e.target.value);
-            }}
-          >
-            <option selected value="region">
-              region
-            </option>
-            <option value="country">country</option>
-            <option value="name">name</option>
-            <option value="variety">variety</option>
-          </select>
           <div className="flex">
             <p className="flex items-center h-full">point:</p>
             <input
@@ -136,7 +126,7 @@ export default function Home({ data }) {
           <div className="flex">
             <p className="flex items-center h-full">price:</p>
             <input
-              value={point.fromPrice}
+              value={price.fromPrice}
               min={0}
               onChange={(e) => {
                 console.log(e.target.value);
@@ -146,7 +136,7 @@ export default function Home({ data }) {
               type={"number"}
             />
             <input
-              value={point.toPrice}
+              value={price.toPrice}
               min={0}
               onChange={(e) => {
                 console.log(e.target.value);
@@ -156,6 +146,20 @@ export default function Home({ data }) {
               type={"number"}
             />
           </div>
+          <select
+            defaultValue="region"
+            onChange={(e) => {
+              console.log(e.target.value);
+              setType(e.target.value);
+            }}
+          >
+            <option selected value="region">
+              region
+            </option>
+            <option value="country">country</option>
+            <option value="name">name</option>
+            <option value="variety">variety</option>
+          </select>
           <input
             value={filter}
             className="mr-2"
@@ -167,12 +171,21 @@ export default function Home({ data }) {
           />
 
           <Button
-            variant="success"
+            className="mr-4"
+            variant="primary"
             onClick={() => {
               changeList();
             }}
           >
             FILTER
+          </Button>
+          <Button
+            variant="success"
+            onClick={() => {
+              getAll();
+            }}
+          >
+            ALL
           </Button>
         </div>
       </div>
